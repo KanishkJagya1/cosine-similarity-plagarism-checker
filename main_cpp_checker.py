@@ -39,3 +39,7 @@ def print_similar_files(plagiarism_results):
             print(f"Files {file1} and {file2} have a cosine similarity of {similarity_score:.2f}")
             print("Therefore the files are similar and marks will be deducted accordingly.")
 
+
+# Check plagiarism and print the results
+plagiarism_results = check_plagiarism()
+print_similar_files(plagiarism_results)

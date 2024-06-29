@@ -1,32 +1,22 @@
 class Solution {
 public:
     vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
-        vector<vector<int>> res(n);
-        vector<vector<int>> graph(n);
-        
-        for (const auto& edge : edges) {
-            graph[edge[0]].push_back(edge[1]);
+        vector<vector<int>> ans(n), directChild(n);
+        for (auto& e : edges) {
+            directChild[e[0]].push_back(e[1]);
         }
-        
-        for (int i = 0; i < n; ++i) {
-            vector<bool> visit(n, false);
-            dfs(graph, i, i, res, visit);
+        for (int i = 0; i < n; i++) {
+            dfs(i, i, ans, directChild);
         }
-        
-        for (int i = 0; i < n; ++i) {
-            sort(res[i].begin(), res[i].end());
-        }
-        
-        return res;
+        return ans;
     }
 
 private:
-    void dfs(vector<vector<int>>& graph, int parent, int curr, vector<vector<int>>& res, vector<bool>& visit) {
-        visit[curr] = true;
-        for (int dest : graph[curr]) {
-            if (!visit[dest]) {
-                res[dest].push_back(parent);
-                dfs(graph, parent, dest, res, visit);
+    void dfs(int x, int curr, vector<vector<int>>& ans, vector<vector<int>>& directChild) {
+        for (int ch : directChild[curr]) {
+            if (ans[ch].empty() || ans[ch].back() != x) {
+                ans[ch].push_back(x);
+                dfs(x, ch, ans, directChild);
             }
         }
     }
